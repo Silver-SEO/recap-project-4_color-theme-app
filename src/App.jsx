@@ -10,14 +10,28 @@ function App() {
   function handleSubmit(data) {
     setColors((prevColors) => [data, ...prevColors]);
   }
+  function handleDeleteColor(id) {
+    const colorsToKeep = colors.filter((color) => color.id !== id);
+    setColors(colorsToKeep);
+  }
 
   return (
     <>
       <h1>Theme Creator</h1>
       <ColorForm onSubmitColor={handleSubmit} />
-      {colors.map((color) => {
-        return <Color key={color.id} color={color} />;
-      })}
+      {colors.length > 0 ? (
+        colors.map((color) => {
+          return (
+            <Color key={color.id} color={color} onDelete={handleDeleteColor} />
+          );
+        })
+      ) : (
+        <p>
+          No colors...
+          <br />
+          Start by adding one!
+        </p>
+      )}
     </>
   );
 }
